@@ -102,7 +102,7 @@ exports.protect = handleAsync(async (req, res, next) => {
   const decodedObj = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   //Check if the user with this token still exists.
-  const currentUser = User.findById(decodedObj.id);
+  const currentUser = await User.findById(decodedObj.id);
   if (!currentUser) {
     return next(
       new AppError('The user holding this token no longer exists!', 401)
@@ -122,4 +122,5 @@ exports.restrictTo =
         new AppError('You do not have permission perform this action!')
       );
     }
+    next();
   };
