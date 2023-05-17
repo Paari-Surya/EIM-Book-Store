@@ -3,7 +3,7 @@ const AppError = require('../utils/appError');
 
 exports.deleteOne = (Model) =>
   handleAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndDelete(req.id);
+    const doc = await Model.findByIdAndDelete(req.params.id);
 
     if (!doc) return next(new AppError('No document found with that ID!', 404));
     res.status(204).json({
@@ -14,7 +14,7 @@ exports.deleteOne = (Model) =>
 
 exports.updateOne = (Model) =>
   handleAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndUpdate(req.id, req.body, {
+    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
@@ -41,9 +41,11 @@ exports.createOne = (Model) =>
     });
   });
 
-exports.getOne = (Model) =>
+exports.getOne = (Model, popOptions) =>
   handleAsync(async (req, res, next) => {
-    const doc = await Model.findById(req.params.id);
+    const doc = popOptions
+      ? await Model.findById(req.params.id).populate(popOptions)
+      : await Model.findById(req.params.id);
 
     if (!doc) return next(new AppError('No document found with that ID!', 404));
 

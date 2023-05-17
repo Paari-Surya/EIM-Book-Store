@@ -13,11 +13,13 @@ app.use(express.json());
 //Req time
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
+  console.log(req.requestTime);
   next();
 });
 
 //ROUTES
 app.use('/api/v1/books', bookRoutes);
+app.use('/api/v1/users', userRoutes);
 
 app.use(globalErrorHandler);
 module.exports = app;
