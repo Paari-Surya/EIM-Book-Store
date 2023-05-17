@@ -1,12 +1,10 @@
 #dependencies
-/client/node_modules
-/server/node_modules
-/node_modules
+*.env
+node_modules/
 /package-lock.json
 /notes.txt
 /.prettierrc
 /.eslintrc.json
 
 #misc
-/server/config.env
 /server/package-lock.json
