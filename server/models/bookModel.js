@@ -22,7 +22,6 @@ const bookSchema = new mongoose.Schema(
     },
     publisher: {
       type: String,
-      type: String,
       required: [true, 'A book must contain a publisher.'],
       min: 5,
       max: 25,
@@ -68,7 +67,8 @@ bookSchema.pre(/^find/, function (next) {
 
 // To check perfomance of queries.
 bookSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start}`);
+  console.log(`Query took ${Date.now() - this.start} ms`);
+  next();
 });
 
 const Book = mongoose.model('Book', bookSchema);

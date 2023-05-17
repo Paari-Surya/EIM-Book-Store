@@ -1,17 +1,14 @@
-const Book = require('./../models/bookModel');
-const handleAsync = require('./../utils/handleAsync');
+const Book = require('../models/bookModel');
+// const handleAsync = require('../utils/handleAsync');
 const factory = require('./handlerFactory');
 
-exports.getAllBooks = handleAsync(async (req, res, next) => {
-  const books = await Book.find();
-  res.status(200).json({
-    status: 'success',
-    data: {
-      books,
-    },
-  });
-});
+//Featured books
 
-// exports.getAllBooks = factory.getAll(Book);
-
+exports.getAllBooks = factory.getAll(Book);
+exports.getBook = factory.getOne(Book);
 exports.createBook = factory.createOne(Book);
+exports.updateBook = factory.updateOne(Book);
+exports.deleteBook = factory.deleteOne(Book);
+
+//getDemo
+//getFullBook
