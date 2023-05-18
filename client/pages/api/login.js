@@ -3,7 +3,6 @@ import cookie from 'cookie';
 
 export default async function handler(req, res) {
   const body = JSON.parse(req.body);
-  console.log(body);
   const username = body.username;
   const password = body.password;
   const expdays = 7;
@@ -25,7 +24,7 @@ export default async function handler(req, res) {
   response = await response.json();
   if (response.status === 'success') {
     const cookies = [
-      { name: 'token', value: response.token, options: { path: '/' } },
+      { name: 'sessionId', value: response.token, options: { path: '/' } },
       {
         name: 'role',
         value: response.data.user.role,
