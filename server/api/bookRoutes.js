@@ -5,6 +5,11 @@ const authController = require('../controllers/authController');
 const router = express.Router();
 
 //Featured Books
+router.get(
+  '/featured',
+  bookController.featured5Books,
+  bookController.getAllBooks
+);
 
 router
   .route('/')
@@ -22,7 +27,3 @@ router
   .delete(bookController.deleteBook);
 
 module.exports = router;
-
-// pm.environment.set("jwt", pm.response.json().token);
-// pm.environment.set("_id", pm.response._id);
-//{{URL}}api/v1/clients/signup

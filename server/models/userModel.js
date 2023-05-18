@@ -43,6 +43,11 @@ const userSchema = new mongoose.Schema({
       message: 'Passwords are not the same',
     },
   },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+    select: false,
+  },
   //   active: {
   //     type: Boolean,
   //     default: true,

@@ -38,6 +38,11 @@ const bookSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+      select: false,
+    },
   },
   {
     toJSON: { virtuals: true },
