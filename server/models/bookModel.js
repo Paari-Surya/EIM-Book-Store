@@ -32,7 +32,7 @@ const bookSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    interested: [
+    buyers: [
       {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
@@ -69,6 +69,9 @@ bookSchema.pre(/^find/, function (next) {
 });
 
 //pre find query to populate the buyers.
+bookSchema.virtual('totalBuyers').get(function () {
+  return this.buyers.length;
+});
 
 // To check perfomance of queries.
 bookSchema.post(/^find/, function (docs, next) {
