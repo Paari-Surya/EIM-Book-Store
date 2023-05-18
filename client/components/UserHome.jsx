@@ -1,9 +1,9 @@
-import React from "react";
-import { useEffect } from "react";
-import Book from "./Book";
-import { useState } from "react";
-import BookDetail from "./BookDetail";
-import AddBook from "./AddBook";
+import React from 'react';
+import { useEffect } from 'react';
+import Book from './Book';
+import { useState } from 'react';
+import BookDetail from './BookDetail';
+import AddBook from './AddBook';
 
 const UserHome = (props) => {
   const [books, setBooks] = useState();
@@ -14,8 +14,8 @@ const UserHome = (props) => {
   const setAdd = props.setAdd;
 
   useEffect(() => {
-    fetch("/api/booklist", {
-      method: "GET",
+    fetch('/api/booklist', {
+      method: 'GET',
     })
       .then((res) => res.json())
       .then((res) => {
@@ -29,7 +29,7 @@ const UserHome = (props) => {
   };
   return (
     <div>
-      <div className="mt-4 container mx-auto">
+      <div className="mt-4 container px-20 mx-auto">
         <h2 className="text-xl font-bold text-gray-700">
           TOP 10 BOOKS OF THE WEEK
         </h2>

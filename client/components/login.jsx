@@ -1,14 +1,41 @@
-import React from "react";
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const Login = () => {
+  const [Error, setError] = useState(false);
+
+  const router = useRouter();
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
     if (username && password) {
-      console.log("Login Perfect");
+      fetch('/api/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.result.status === 'success') {
+            if (res.result.data.user.role === 'user') {
+              router.push('/user');
+            }
+
+            if (res.result.data.user.role === 'client') {
+              router.push('/client');
+            }
+          } else {
+            setError(true);
+            setTimeout(() => {
+              setError(false);
+            }, 3000);
+          }
+        });
     }
   };
   return (
@@ -16,6 +43,11 @@ const Login = () => {
       <div className="block border border-gray-300 w-4/12 rounded-lg shadow-lg px-10 py-5">
         <h3 className="text-xl font-bold text-gray-800 text-center">Login</h3>
         <form onSubmit={handleSubmit}>
+          {Error && (
+            <div className="bg-red-200 mt-2 rounded px-4 py-2 text-red-800 font-semibold text-center">
+              Invalid Credentials
+            </div>
+          )}
           <div className="block mt-2 px-4">
             <label htmlFor="username">Username</label>
             <input
@@ -39,7 +71,7 @@ const Login = () => {
           </div>
           <div className="mt-3">
             <p className="text-center">
-              Already have an account{" "}
+              Already have an account{' '}
               <span>
                 <a href="/signup" className="font-medium text-blue-700">
                   Sign Up

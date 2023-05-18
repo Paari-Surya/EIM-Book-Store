@@ -1,18 +1,37 @@
-import React from "react";
+import React from 'react';
+import { useRouter } from 'next/router';
+import { redirect } from 'next/dist/server/api-utils';
 
 const SignUp = (props) => {
+  const router = useRouter();
   const handleSubmit = (e) => {
     e.preventDefault();
-    const fname = document.getElementById("firstName").value;
-    const lname = document.getElementById("lastName").value;
-    const phone = document.getElementById("phone").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+    const name = document.getElementById('name').value;
+    const userName = document.getElementById('username').value;
+    const role = document.getElementById('role').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
 
-    if (fname && lname && phone && email && password && confirmPassword) {
+    if (name && userName && role && email && password && confirmPassword) {
       if (password === confirmPassword) {
-        console.log("Perfect");
+        fetch('/api/signup', {
+          method: 'POST',
+          body: JSON.stringify({
+            userName: userName,
+            name: name,
+            email: email,
+            role: role,
+            password: password,
+            confirmPassword: confirmPassword,
+          }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.result.status === 'success') {
+              router.push('/user');
+            }
+          });
       }
     }
   };
@@ -23,26 +42,10 @@ const SignUp = (props) => {
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="block mt-2 px-4">
-              <label htmlFor="firstName">First Name</label>
+              <label htmlFor="name">Name</label>
               <input
                 type="text"
-                id="firstName"
-                className="block w-full focus:outline-none rounded-md px-4 py-1.5 text-gray-700 border border-gray-400"
-              />
-            </div>
-            <div className="block mt-2 px-4">
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                type="text"
-                id="lastName"
-                className="block w-full focus:outline-none rounded-md px-4 py-1.5 text-gray-700 border border-gray-400"
-              />
-            </div>
-            <div className="block mt-2 px-4">
-              <label htmlFor="phone">Phone</label>
-              <input
-                type="text"
-                id="phone"
+                id="name"
                 className="block w-full focus:outline-none rounded-md px-4 py-1.5 text-gray-700 border border-gray-400"
               />
             </div>
@@ -53,6 +56,25 @@ const SignUp = (props) => {
                 id="email"
                 className="block w-full focus:outline-none rounded-md px-4 py-1.5 text-gray-700 border border-gray-400"
               />
+            </div>
+            <div className="block mt-2 px-4">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                className="block w-full focus:outline-none rounded-md px-4 py-1.5 text-gray-700 border border-gray-400"
+              />
+            </div>
+            <div className="block mt-2 px-4">
+              <label htmlFor="role">Role</label>
+              <select
+                className="block w-full border border-gray-400 rounded-md px-4 py-1.5"
+                name="role"
+                id="role"
+              >
+                <option value="user">User</option>
+                <option value="client">Client</option>
+              </select>
             </div>
             <div className="block mt-2 px-4">
               <label htmlFor="password">Password</label>
@@ -81,10 +103,5 @@ const SignUp = (props) => {
     </div>
   );
 };
-
-export async function getServerSideProps({ req, res }) {
-  const cookies = req.cookies;
-  console.log(cookies);
-}
 
 export default SignUp;
