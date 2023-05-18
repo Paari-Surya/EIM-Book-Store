@@ -1,6 +1,4 @@
-# EIM BOOK MANAGER
-
-A brief description of your project.
+# <span style='color: purple'>EIM BOOK MANAGER</span>
 
 ## Description
 
