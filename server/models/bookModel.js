@@ -38,6 +38,8 @@ const bookSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    imgPath: String,
+    pdfPath: String,
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -49,10 +51,6 @@ const bookSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
-
-// Indexing the results
-// Any virtual property.
-// Virtual populate review in our case.
 
 //slug
 bookSchema.pre('save', function (next) {
@@ -68,16 +66,18 @@ bookSchema.pre(/^find/, function (next) {
   next();
 });
 
-//pre find query to populate the buyers.
+// Total_Buyers
 bookSchema.virtual('totalBuyers').get(function () {
   return this.buyers.length;
 });
 
-// To check perfomance of queries.
-bookSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start} ms`);
-  next();
-});
+// Check perfomance
+// bookSchema.post(/^find/, function (docs, next) {
+//   const queryTime = Date.now() - this.start;
+//   if (queryTime < 40) console.log(`Query took ${queryTime} ms`.green);
+//   else if (queryTime > 40) console.log(`Query took ${queryTime} ms`.red);
+//   next();
+// });
 
 const Book = mongoose.model('Book', bookSchema);
 

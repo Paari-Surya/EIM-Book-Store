@@ -1,6 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const multer = require('multer');
 const AppError = require('../utils/appError');
 

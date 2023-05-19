@@ -17,11 +17,11 @@ app.use(express.json());
 app.use(express.static('./public'));
 
 //Req time
-app.use((req, res, next) => {
-  req.requestTime = new Date().toISOString();
-  console.log(req.requestTime);
-  next();
-});
+// app.use((req, res, next) => {
+//   req.requestTime = new Date().toISOString();
+//   console.log(req.requestTime);
+//   next();
+// });
 
 //ROUTES
 app.use('/api/v1/books', bookRoutes);

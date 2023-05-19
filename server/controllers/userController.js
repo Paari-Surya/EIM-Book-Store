@@ -34,7 +34,6 @@ exports.userAddBook = handleAsync(async (req, res, next) => {
     );
   }
   if (!user.books) user.books = [];
-  console.log(user.userName);
   user.books.push(bookId);
   await User.findByIdAndUpdate(
     user._id,
