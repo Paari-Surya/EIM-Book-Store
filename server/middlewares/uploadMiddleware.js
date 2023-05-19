@@ -1,45 +1,84 @@
-// /* eslint-disable import/no-extraneous-dependencies */
-// const path = require('path');
-// const multer = require('multer');
-// const AppError = require('../utils/appError');
+const path = require('path');
+const { promisify } = require('util');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const multer = require('multer');
 
-// //Config
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     if (file.mimetype === 'application/pdf') {
-//       cb(null, '../public/uploads/pdf');
-//     } else if (file.mimetype === 'image/') {
-//       cb(null, '../public/img');
-//     } else {
-//       const error = new Error(
-//         'File upload error occurred! Only pdf and img are allowed.'
-//       );
-//       error.status = 400;
-//       cb(error);
-//     }
-//   },
-//   filename: (req, file, cb) => {
-//     const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e2)}`;
-//     cb(null, `${file.fieldname}-${uniqueName}`);
-//   },
-// });
+const handleAsync = require('../utils/handleAsync');
+const AppError = require('../utils/appError');
 
-// const upload = multer(storage);
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    if (file.fieldname === 'book') {
+      cb(null, path.join(__dirname, '../public/uploads/pdf'));
+    } else if (file.fieldname === 'coverImg') {
+      cb(null, path.join(__dirname, '../public/uploads/img/'));
+    }
+  },
+  filename: (req, file, cb) => {
+    if (file.fieldname === 'book') {
+      cb(null, file.fieldname + Date.now() + path.extname(file.originalname));
+    } else if (file.fieldname === 'coverImg') {
+      cb(null, file.fieldname + Date.now() + path.extname(file.originalname));
+    }
+  },
+});
 
-// // Middleware
-// const uploadMiddleware = (req, res, next) => {
-//   upload.fields([
-//     { name: 'pdf', maxCount: 1 },
-//     { name: 'image', maxCount: 1 },
-//   ])(req, res, (err) => {
-//     if (err) {
-//       if (err instanceof multer.MulterError) {
-//         return next(new AppError('File upload error occured!', 400));
-//       }
-//       return next(new AppError('Internal server error', 500));
-//     }
-//     next();
-//   });
-// };
+function checkFileType(file, cb) {
+  if (file.fieldname === 'book') {
+    if (file.mimetype === 'application/pdf') {
+      // check file type to be pdf
+      cb(null, true);
+    } else {
+      cb(null, false); // else fails
+    }
+  } else if (file.fieldname === 'coverImg') {
+    if (
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/jpeg' ||
+      file.mimetype === 'image/gif'
+    ) {
+      // check file type to be png, jpeg, or jpg
+      cb(null, true);
+    } else {
+      cb(null, false); // else fails
+    }
+  }
+}
 
-// module.exports = uploadMiddleware;
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 2,
+  },
+  fileFilter: (req, file, cb) => {
+    checkFileType(file, cb);
+  },
+}).fields([
+  {
+    name: 'book',
+    maxCount: 1,
+  },
+  {
+    name: 'coverImg',
+    maxCount: 1,
+  },
+]);
+
+const uploadMiddleware = handleAsync(async (req, res, next) => {
+  const uploadAsync = promisify(upload);
+  await uploadAsync(req, res, (err) => {
+    if (err) {
+      if (err instanceof multer.MulterError) {
+        return next(new AppError('File upload error occured!', 400));
+      }
+      return next(new AppError(err, 500));
+    }
+    req.body = JSON.parse(req.body.data);
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    req.body.files = { ...req.files };
+    next();
+  });
+});
+
+module.exports = uploadMiddleware;

@@ -24,6 +24,7 @@ router
 router.post(
   '/:userId/addBook',
   authController.protect,
+  authController.restrictTo('user'),
   userController.userAddBook
 );
 

@@ -40,7 +40,8 @@ const bookSchema = new mongoose.Schema(
     ],
     imgPath: String,
     pdfPath: String,
-    createdAt: {
+    averageRating: Number,
+    _createdAt: {
       type: Date,
       default: Date.now(),
       select: false,

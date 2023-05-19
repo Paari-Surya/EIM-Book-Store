@@ -8,3 +8,5 @@ node_modules/
 
 #misc
 /server/package-lock.json
+
+/server/public/
