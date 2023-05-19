@@ -6,9 +6,9 @@ const AppError = require('../utils/appError');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     if (file.fieldname === 'book') {
-      cb(null, path.join(__dirname, './uploads/pdf/'));
+      cb(null, path.join(__dirname, '../public/uploads/pdf'));
     } else if (file.fieldname === 'coverImg') {
-      cb(null, path.join(__dirname, './uploads/img/'));
+      cb(null, path.join(__dirname, '../public/uploads/img/'));
     }
   },
   filename: (req, file, cb) => {
@@ -62,15 +62,16 @@ const upload = multer({
   },
 ]);
 
-const uploadMiddleware = (req, res, next) =>
+const uploadMiddleware = (req, res, next) => {
   upload(req, res, (err) => {
     if (err) {
       if (err instanceof multer.MulterError) {
         return next(new AppError('File upload error occured!', 400));
       }
-      return next(new AppError('Internal server error', 500));
+      return next(new AppError(err, 500));
     }
-    next();
+    req.body = { ...req.body, ...req.files };
   });
-
+  next();
+};
 module.exports = uploadMiddleware;

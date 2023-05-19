@@ -1,4 +1,3 @@
-const path = require('path');
 const Book = require('../models/bookModel');
 // const User = require('../models/userModel');
 const handleAsync = require('../utils/handleAsync');
@@ -16,6 +15,13 @@ exports.createBook = factory.createOne(Book);
 exports.getBook = factory.getOne(Book, 'owner');
 exports.updateBook = factory.updateOne(Book);
 exports.deleteBook = factory.deleteOne(Book);
+
+// exports.createBook = handleAsync(async (req, res, next) => {});
+// if (Model === Book) {
+//   const pdfPath = req.files['book'][0].path;
+//   const imagePath = req.files['coverImg'][0].path;
+//   console.log(pdfPath, imagePath);
+// }
 
 exports.getBookBuyers = handleAsync(async (req, res, next) => {
   const { bookId } = req.params;

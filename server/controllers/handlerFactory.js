@@ -1,6 +1,7 @@
 const handleAsync = require('../utils/handleAsync');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
+const Book = require('../models/bookModel');
 
 exports.deleteOne = (Model) =>
   handleAsync(async (req, res, next) => {
@@ -33,7 +34,10 @@ exports.updateOne = (Model) =>
 exports.createOne = (Model) =>
   handleAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
-
+    if (Model === Book) {
+      const { book, coverImg } = req.body;
+      console.log(book[0].path, coverImg[0].path);
+    }
     res.status(201).json({
       status: 'success',
       data: {
@@ -69,7 +73,7 @@ exports.getAll = (Model) =>
 
     res.status(200).json({
       status: 'success',
-      results: doc.length,
+      results: doc,
       data: {
         data: doc,
       },

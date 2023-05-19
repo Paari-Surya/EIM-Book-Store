@@ -19,7 +19,6 @@ const UserHome = (props) => {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         setBooks(res.result.data.data);
       });
   }, []);

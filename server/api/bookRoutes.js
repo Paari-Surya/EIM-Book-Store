@@ -1,6 +1,7 @@
 const express = require('express');
 const bookController = require('../controllers/bookController');
 const authController = require('../controllers/authController');
+const uploadMiddleware = require('../middlewares/uploadMiddleware2');
 
 const router = express.Router();
 
@@ -17,6 +18,7 @@ router
   .post(
     authController.protect,
     authController.restrictTo('client', 'admin'),
+    uploadMiddleware,
     bookController.createBook
   );
 
