@@ -26,4 +26,10 @@ router
   .patch(bookController.updateBook)
   .delete(bookController.deleteBook);
 
+router.get(
+  '/:bookId/buyers',
+  authController.protect,
+  bookController.getBookBuyers
+);
+
 module.exports = router;

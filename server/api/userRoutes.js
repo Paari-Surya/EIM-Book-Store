@@ -21,4 +21,10 @@ router
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
+router.post(
+  '/:userId/addBook',
+  authController.protect,
+  userController.userAddBook
+);
+
 module.exports = router;

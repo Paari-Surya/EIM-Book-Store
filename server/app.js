@@ -9,17 +9,12 @@ const userRoutes = require('./api/userRoutes');
 const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
-//Need to include express.static()
-// const storage = multer.diskStorage({
-//   destination: './public/uploads/',
-//   filename: function(req, file, cb) [
-
-//   ]
-// });
 
 app.use(morgan('dev'));
 
 app.use(express.json());
+
+app.use(express.static('./public'));
 
 //Req time
 app.use((req, res, next) => {

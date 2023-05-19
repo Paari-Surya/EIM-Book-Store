@@ -44,6 +44,12 @@ const userSchema = new mongoose.Schema(
         message: 'Passwords are not the same',
       },
     },
+    books: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Book',
+      },
+    ],
     createdAt: {
       type: Date,
       default: Date.now(),
