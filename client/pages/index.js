@@ -1,6 +1,6 @@
-import Layout from '@/components/layout';
-import Login from '@/components/login';
-import { useState } from 'react';
+import Layout from "@/components/layout";
+import Login from "@/components/login";
+import { useState } from "react";
 export default function Home() {
   return (
     <div>
@@ -13,18 +13,18 @@ export async function getServerSideProps({ req, res }) {
   const cookies = req.cookies;
   const sessionId = cookies.sessionId;
   const role = cookies.role;
-  if (sessionId && role === 'user') {
+  if (sessionId && role === "user") {
     return {
       redirect: {
-        destination: '/user',
+        destination: "/user",
       },
     };
   }
 
-  if (sessionId && role === 'client') {
+  if (sessionId && role === "client") {
     return {
       redirect: {
-        destination: '/client',
+        destination: "/client",
       },
     };
   }

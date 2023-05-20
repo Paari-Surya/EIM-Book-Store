@@ -17,6 +17,7 @@ export default async function handler(req, res) {
       password: password,
       passwordConfirm: confirmPassword,
       email: email,
+      role: role,
     }),
   });
   response = await response.json();
@@ -26,6 +27,11 @@ export default async function handler(req, res) {
       {
         name: "role",
         value: response.data.user.role,
+        options: { path: "/", httpOnly: true },
+      },
+      {
+        name: "userUuid",
+        value: response.data.user.id,
         options: { path: "/", httpOnly: true },
       },
     ];

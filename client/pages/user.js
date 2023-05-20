@@ -1,5 +1,5 @@
-import React from 'react';
-import Layout from '@/components/layout';
+import React from "react";
+import Layout from "@/components/layout";
 
 const User = () => {
   return (
@@ -17,16 +17,16 @@ export async function getServerSideProps({ req, res }) {
   if (!sessionId) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     };
   }
 
-  if (role != 'user') {
+  if (role != "user") {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     };

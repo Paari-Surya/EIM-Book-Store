@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      select: false,
       min: 7,
       max: 20,
     },
@@ -55,11 +56,11 @@ const userSchema = new mongoose.Schema(
       default: Date.now(),
       select: false,
     },
-    //   active: {
-    //     type: Boolean,
-    //     default: true,
-    //     select: false,
-    //   },
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
+    },
   },
   {
     toJSON: { virtuals: true },

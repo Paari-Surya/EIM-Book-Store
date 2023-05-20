@@ -17,11 +17,11 @@ exports.updateBook = factory.updateOne(Book);
 exports.deleteBook = factory.deleteOne(Book);
 
 exports.createBook = handleAsync(async (req, res, next) => {
-  const imgPath = req.body.files.coverImg[0].path;
-  const pdfPath = req.body.files.book[0].path;
-  req.body.imgPath = imgPath;
-  req.body.pdfPath = pdfPath;
-
+  // const imgPath = req.body.files.coverImg[0].path;
+  // const pdfPath = req.body.files.book[0].path;
+  // req.body.imgPath = imgPath;
+  // req.body.pdfPath = pdfPath;
+  console.log(req.body);
   const doc = await Book.create(req.body);
   res.status(201).json({
     status: 'success',

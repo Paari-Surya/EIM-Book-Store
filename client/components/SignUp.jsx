@@ -1,22 +1,22 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { redirect } from 'next/dist/server/api-utils';
+import React from "react";
+import { useRouter } from "next/router";
+import { redirect } from "next/dist/server/api-utils";
 
 const SignUp = (props) => {
   const router = useRouter();
   const handleSubmit = (e) => {
     e.preventDefault();
-    const name = document.getElementById('name').value;
-    const userName = document.getElementById('username').value;
-    const role = document.getElementById('role').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
+    const name = document.getElementById("name").value;
+    const userName = document.getElementById("username").value;
+    const role = document.getElementById("role").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
     if (name && userName && role && email && password && confirmPassword) {
       if (password === confirmPassword) {
-        fetch('/api/signup', {
-          method: 'POST',
+        fetch("/api/signup", {
+          method: "POST",
           body: JSON.stringify({
             userName: userName,
             name: name,
@@ -28,8 +28,8 @@ const SignUp = (props) => {
         })
           .then((res) => res.json())
           .then((res) => {
-            if (res.result.status === 'success') {
-              router.push('/user');
+            if (res.result.status === "success") {
+              router.push("/user");
             }
           });
       }
@@ -99,6 +99,17 @@ const SignUp = (props) => {
             </button>
           </div>
         </form>
+
+        <div className="block mt-3">
+          <p className="text-center">
+            Already have an account{" "}
+            <span>
+              <a className="text-blue-700 font-medium hover:underline" href="/">
+                Login
+              </a>
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   );

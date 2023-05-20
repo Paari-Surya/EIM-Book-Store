@@ -11,15 +11,16 @@ router
   .route('/')
   .get(
     authController.protect,
-    authController.restrictTo('admin'),
+    // authController.restrictTo('admin'),
     userController.getAllUsers
   )
   .post(userController.createUser);
 router
   .route('/:id')
-  .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+  .get(authController.protect, userController.getUser)
+  // PATCH has to be accesible only by the current user/client and admin
+  .patch(authController.protect, userController.updateUser)
+  .delete(authController.protect, userController.deleteUser);
 
 router.post(
   '/:userId/addBook',

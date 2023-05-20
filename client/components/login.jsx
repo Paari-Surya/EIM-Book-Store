@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 const Login = () => {
   const [Error, setError] = useState(false);
@@ -8,12 +8,12 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
     if (username && password) {
-      fetch('/api/login', {
-        method: 'POST',
+      fetch("/api/login", {
+        method: "POST",
         body: JSON.stringify({
           username: username,
           password: password,
@@ -21,13 +21,13 @@ const Login = () => {
       })
         .then((res) => res.json())
         .then((res) => {
-          if (res.result.status === 'success') {
-            if (res.result.data.user.role === 'user') {
-              router.push('/user');
+          if (res.result.status === "success") {
+            if (res.result.data.user.role === "user") {
+              router.push("/user");
             }
 
-            if (res.result.data.user.role === 'client') {
-              router.push('/client');
+            if (res.result.data.user.role === "client") {
+              router.push("/client");
             }
           } else {
             setError(true);
@@ -71,7 +71,7 @@ const Login = () => {
           </div>
           <div className="mt-3">
             <p className="text-center">
-              Already have an account{' '}
+              Already have an account{" "}
               <span>
                 <a href="/signup" className="font-medium text-blue-700">
                   Sign Up

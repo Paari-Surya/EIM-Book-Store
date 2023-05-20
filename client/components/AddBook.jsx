@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/24/outline";
+import { PhotoIcon } from "@heroicons/react/24/outline";
 
 export default function Example(props) {
   const add = props.add;
@@ -12,10 +12,28 @@ export default function Example(props) {
     const author = document.getElementById("author").value;
     const name = document.getElementById("name").value;
     const publisher = document.getElementById("publisher").value;
+    const coverImg = document.getElementById("coverImg").value;
+    const bookPdf = document.getElementById("bookPdf").value;
 
-    if (author && name && publisher) {
-      console.log("ALl PERFECT");
-      setAdd(!add);
+    if (author && name && publisher && coverImg && bookPdf) {
+      fetch("/api/createbook", {
+        method: "POST",
+        body: JSON.stringify({
+          name: name,
+          author: author,
+          publisher: publisher,
+          coverImg: coverImg,
+          bookPdf: bookPdf,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.result.status === "success") {
+            setAdd(!add);
+          } else {
+            alert("Something went wrong");
+          }
+        });
     } else {
       alert("Please fill all the fields");
     }
@@ -77,6 +95,64 @@ export default function Example(props) {
                           id="publisher"
                           className="block rounded-md border border-gray-400 px-4 py-1.5"
                         />
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <p>Cover Image</p>
+                      <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                        <div className="text-center">
+                          <PhotoIcon
+                            className="mx-auto h-12 w-12 text-gray-300"
+                            aria-hidden="true"
+                          />
+                          <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                            <label
+                              htmlFor="coverImg"
+                              className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                            >
+                              <span>Upload a file</span>
+                              <input
+                                id="coverImg"
+                                name="coverImg"
+                                type="file"
+                                className="sr-only"
+                              />
+                            </label>
+                            <p className="pl-1">or drag and drop</p>
+                          </div>
+                          <p className="text-xs leading-5 text-gray-600">
+                            PNG, JPG, GIF up to 10MB
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <p>Book</p>
+                      <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                        <div className="text-center">
+                          <PhotoIcon
+                            className="mx-auto h-12 w-12 text-gray-300"
+                            aria-hidden="true"
+                          />
+                          <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                            <label
+                              htmlFor="bookPdf"
+                              className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                            >
+                              <span>Upload a file</span>
+                              <input
+                                id="bookPdf"
+                                name="bookPdf"
+                                type="file"
+                                className="sr-only"
+                              />
+                            </label>
+                            <p className="pl-1">or drag and drop</p>
+                          </div>
+                          <p className="text-xs leading-5 text-gray-600">
+                            PNG, JPG, GIF up to 10MB
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>

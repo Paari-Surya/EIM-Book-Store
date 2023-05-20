@@ -1,3 +1,4 @@
+const fs = require('fs');
 const handleAsync = require('../utils/handleAsync');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');

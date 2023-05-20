@@ -8,13 +8,14 @@ const router = express.Router();
 //Featured Books
 router.get(
   '/featured',
+  authController.protect,
   bookController.featured5Books,
   bookController.getAllBooks
 );
 
 router
   .route('/')
-  .get(bookController.getAllBooks)
+  .get(authController.protect, bookController.getAllBooks)
   .post(
     authController.protect,
     authController.restrictTo('client', 'admin'),
@@ -25,8 +26,16 @@ router
 router
   .route('/:id')
   .get(authController.protect, bookController.getBook)
-  .patch(bookController.updateBook)
-  .delete(bookController.deleteBook);
+  .patch(
+    authController.protect,
+    authController.restrictTo('client', 'admin'),
+    bookController.updateBook
+  )
+  .delete(
+    authController.protect,
+    authController.restrictTo('client', 'admin'),
+    bookController.deleteBook
+  );
 
 router.get(
   '/:bookId/buyers',

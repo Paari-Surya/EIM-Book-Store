@@ -1,30 +1,35 @@
-import React from 'react';
-import { useEffect } from 'react';
-import Book from './Book';
-import { useState } from 'react';
-import BookDetail from './BookDetail';
-import AddBook from './AddBook';
+import React from "react";
+import { useEffect } from "react";
+import Book from "./Book";
+import { useState } from "react";
+import BookDetail from "./BookDetail";
+import AddBook from "./AddBook";
+import { useRouter } from "next/router";
 
 const UserHome = (props) => {
   const [books, setBooks] = useState();
   const [open, setOpen] = useState(false);
   const [singleBook, setSingleBook] = useState();
 
+  const router = useRouter();
+
   const add = props.add;
   const setAdd = props.setAdd;
 
   useEffect(() => {
-    fetch('/api/booklist', {
-      method: 'GET',
+    fetch("/api/booklist", {
+      method: "GET",
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log(res);
         setBooks(res.result.data.data);
       });
   }, []);
 
   const handleClick = (book) => {
-    setSingleBook(book);
+    const serializedObject = encodeURIComponent(JSON.stringify(book));
+    router.push(`/useraddbook?data=${serializedObject}`);
   };
   return (
     <div>
@@ -45,7 +50,6 @@ const UserHome = (props) => {
             ))}
         </div>
       </div>
-      <BookDetail singleBook={singleBook} setOpen={setOpen} open={open} />
       <AddBook setAdd={setAdd} add={add} />
     </div>
   );
