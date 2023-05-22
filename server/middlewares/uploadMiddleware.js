@@ -72,15 +72,18 @@ const uploadMiddleware = handleAsync(async (req, res, next) => {
       if (err instanceof multer.MulterError) {
         return next(new AppError('File upload error occured!', 400));
       }
+      console.log(err);
       return next(new AppError(err, 500));
     }
-    req.body = JSON.parse(req.body.data);
+    console.log('REQ>BODY', req.body);
+    // req.body = JSON.parse(req.body.data);
+    console.log('REQ>BODY : ', req.body);
     const imgPath = req.files.coverImg[0].path;
     const pdfPath = req.files.book[0].path;
     req.body.imgPath = imgPath;
     req.body.pdfPath = pdfPath;
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
-    // req.body.files = { ...req.files };
+    req.body.files = { ...req.files };
     next();
   });
 });

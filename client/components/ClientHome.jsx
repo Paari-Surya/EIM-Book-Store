@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import BookDetail from "./BookDetail";
-import AddBook from "./AddBook";
-import Book from "./Book";
+import React, { useEffect, useState } from 'react';
+import BookDetail from './BookDetail';
+import AddBook from './AddBook';
+import Book from './Book';
 
 const ClientHome = (props) => {
   const [clientDetails, setClientDetails] = useState();
@@ -18,18 +18,18 @@ const ClientHome = (props) => {
   };
 
   useEffect(() => {
-    fetch("/api/getclient", {
-      method: "GET",
+    fetch('/api/getclient', {
+      method: 'GET',
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res.result.status === "success") {
+        if (res.result.status === 'success') {
           setClientDetails(res.result);
-          setBooks(res.result.data.data.myBooks);
+          setBooks(res.result.data.myBooks);
         }
       });
-    fetch("/api/booklist", {
-      method: "GET",
+    fetch('/api/booklist', {
+      method: 'GET',
     })
       .then((res) => res.json())
       .then((res) => {

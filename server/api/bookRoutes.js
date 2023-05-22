@@ -37,6 +37,8 @@ router
     bookController.deleteBook
   );
 
+router.get('/:id/bookPdf', authController.protect, bookController.getBookFile);
+
 router.get(
   '/:bookId/buyers',
   authController.protect,

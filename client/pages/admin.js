@@ -1,14 +1,10 @@
-import Layout from '@/components/layout';
-import React from 'react';
+import Layout from "@/components/layout";
+import React from "react";
 
-const Client = () => {
-  const title = 'Add Book';
-  const handleButton = () => {
-    () => setAdd(!add);
-  };
+const Admin = () => {
   return (
     <div>
-      <Layout handleButton={handleButton} title={title} />
+      <Layout />
     </div>
   );
 };
@@ -21,16 +17,16 @@ export async function getServerSideProps({ req, res }) {
   if (!sessionId) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     };
   }
 
-  if (role != 'client') {
+  if (role != "admin") {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     };
@@ -41,4 +37,4 @@ export async function getServerSideProps({ req, res }) {
   };
 }
 
-export default Client;
+export default Admin;

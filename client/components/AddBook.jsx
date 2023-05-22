@@ -1,41 +1,54 @@
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { PhotoIcon } from "@heroicons/react/24/outline";
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { PhotoIcon } from '@heroicons/react/24/outline';
+import axios from 'axios';
 
 export default function Example(props) {
-  const add = props.add;
+  // const add = props.add;
+  const add = false;
   const setAdd = props.setAdd;
+  const [file, setFile] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const author = document.getElementById("author").value;
-    const name = document.getElementById("name").value;
-    const publisher = document.getElementById("publisher").value;
-    const coverImg = document.getElementById("coverImg").value;
-    const bookPdf = document.getElementById("bookPdf").value;
+    const author = document.getElementById('author').value;
+    const name = document.getElementById('name').value;
+    const publisher = document.getElementById('publisher').value;
+    const coverImg = document.getElementById('coverImg').files[0];
+    const bookPdf = document.getElementById('bookPdf').files[0];
+
+    // const body = JSON.stringify({ name, author, publisher });
 
     if (author && name && publisher && coverImg && bookPdf) {
-      fetch("/api/createbook", {
-        method: "POST",
-        body: JSON.stringify({
-          name: name,
-          author: author,
-          publisher: publisher,
-          coverImg: coverImg,
-          bookPdf: bookPdf,
-        }),
+      const formData = new FormData();
+      formData.append('book', bookPdf);
+      formData.append('coverImg', coverImg);
+      formData.append('data', JSON.stringify({ name, author, publisher }));
+
+      fetch('/api/createbook', {
+        method: 'POST',
+        headers: {
+          'Content-type': `mutipart/form-data;boundary=${formData._boundary}`,
+        },
+        body: formData,
       })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.result.status === "success") {
-            setAdd(!add);
-          } else {
-            alert("Something went wrong");
-          }
+        .then((res) => res.blob())
+        .then((blob) => {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'Book.pdf';
+          document.body.appendChild(link);
+          link;
+          console.log(link);
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
         });
-    } else {
-      alert("Please fill all the fields");
     }
   };
   return (
@@ -65,7 +78,7 @@ export default function Example(props) {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
-                <form onSubmit={handleSubmit}>
+                <form encType="multipart/form-data" onSubmit={handleSubmit}>
                   <div>
                     <h2 className="text-center font-xl text-black font-bold">
                       ADD BOOK
@@ -144,6 +157,8 @@ export default function Example(props) {
                                 id="bookPdf"
                                 name="bookPdf"
                                 type="file"
+                                onChange={handleFileChange}
+                                accept="application/pdf"
                                 className="sr-only"
                               />
                             </label>

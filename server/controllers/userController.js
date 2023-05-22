@@ -16,6 +16,29 @@ exports.createUser = (req, res, next) => {
     message: 'This route is not for adding users. Use signup instead.',
   });
 };
+
+exports.getUserBooks = handleAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const user = await User.findById(id).populate('books');
+  const { books } = user;
+  res.status(200).json({
+    status: 'success',
+    data: {
+      books,
+    },
+  });
+});
+exports.getClientBooks = handleAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const user = await User.findById(id).populate('myBooks');
+  const { books } = user;
+  res.status(200).json({
+    status: 'success',
+    data: {
+      books,
+    },
+  });
+});
 exports.userAddBook = handleAsync(async (req, res, next) => {
   const { userId } = req.params;
   const { bookId } = req.body;

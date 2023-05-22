@@ -1,10 +1,16 @@
 import React from "react";
 import Layout from "@/components/layout";
+import { useRouter } from "next/router";
 
 const User = () => {
+  const title = "My Books";
+  const router = useRouter();
+  const handleButton = () => {
+    router.push("/mybooks");
+  };
   return (
     <div>
-      <Layout />
+      <Layout handleButton={handleButton} title={title} />
     </div>
   );
 };

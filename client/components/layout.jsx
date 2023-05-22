@@ -1,25 +1,39 @@
-import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
-import { useRouter } from "next/router";
-import UserHome from "./UserHome";
-import { useState } from "react";
-import ClientHome from "./ClientHome";
+import React from 'react';
+import Header from './Header';
+import Footer from './Footer';
+import { useRouter } from 'next/router';
+import UserHome from './UserHome';
+import { useState } from 'react';
+import ClientHome from './ClientHome';
+import AdminHome from './AdminHome';
+import MyBooks from './MyBooksComponent';
 
-const Layout = () => {
+const Layout = (props) => {
   const router = useRouter();
   const [add, setAdd] = useState(false);
   const [clientAdd, setClientAdd] = useState(false);
+
+  const title = props.title ? props.title : '';
+  const handleButton = props.handleButton;
   return (
     <div>
-      <Header setAdd={setAdd} add={add} />
+      <Header
+        handleButton={handleButton}
+        title={title}
+        setAdd={setAdd}
+        add={add}
+      />
       <div className="pb-4">
-        {router.pathname === "/user" ? (
+        {router.pathname === '/user' ? (
           <UserHome setAdd={setAdd} add={add} />
-        ) : router.pathname === "/client" ? (
+        ) : router.pathname === '/client' ? (
           <ClientHome clientAdd={add} setClientAdd={setAdd} />
+        ) : router.pathname === '/admin' ? (
+          <AdminHome />
+        ) : router.pathname === '/mybooks' ? (
+          <MyBooks />
         ) : (
-          ""
+          ''
         )}
       </div>
       {/* <Footer /> */}

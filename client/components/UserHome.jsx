@@ -1,10 +1,10 @@
-import React from "react";
-import { useEffect } from "react";
-import Book from "./Book";
-import { useState } from "react";
-import BookDetail from "./BookDetail";
-import AddBook from "./AddBook";
-import { useRouter } from "next/router";
+import React from 'react';
+import { useEffect } from 'react';
+import Book from './Book';
+import { useState } from 'react';
+import BookDetail from './BookDetail';
+import AddBook from './AddBook';
+import { useRouter } from 'next/router';
 
 const UserHome = (props) => {
   const [books, setBooks] = useState();
@@ -17,12 +17,11 @@ const UserHome = (props) => {
   const setAdd = props.setAdd;
 
   useEffect(() => {
-    fetch("/api/booklist", {
-      method: "GET",
+    fetch('/api/booklist', {
+      method: 'GET',
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         setBooks(res.result.data.data);
       });
   }, []);

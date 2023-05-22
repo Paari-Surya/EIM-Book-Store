@@ -1,27 +1,28 @@
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/router";
+import { Fragment } from 'react';
+import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/router';
 
-const navigation = [{ name: "Dashboard", href: "#", current: true }];
+const navigation = [{ name: 'Dashboard', href: '#', current: true }];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 export default function Example(props) {
   const setAdd = props.setAdd;
+  const { title, handleButton } = props;
   const add = props.add;
   const router = useRouter();
   const handleSignOut = () => {
-    fetch("/api/signout", {
-      method: "POST",
+    fetch('/api/signout', {
+      method: 'POST',
       body: JSON.stringify({
-        nothing: "nothing",
+        nothing: 'nothing',
       }),
     }).then((res) => {
       if (res) {
-        router.push("/");
+        router.push('/');
       }
     });
   };
@@ -44,51 +45,55 @@ export default function Example(props) {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <h2 className="text-xl font-extrabold text-white">EMI</h2>
+                  <h2 className="text-xl font-extrabold text-white">
+                    EIM Book Store
+                  </h2>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
+                  {/* <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
                         className={classNames(
                           item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium"
+                            ? 'bg-gray-900 text-white'
+                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'rounded-md px-3 py-2 text-sm font-medium'
                         )}
-                        aria-current={item.current ? "page" : undefined}
+                        aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
                       </a>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* Profile dropdown */}
 
                 <button
-                  onClick={() => setAdd(!add)}
+                  onClick={handleButton}
                   className="ml-3 flex items-center gap-2 bg-gray-300 px-4 py-2 hover:bg-white rounded font-bold"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
+                  {title === 'Add Book' && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  )}
 
-                  <span>Add Book</span>
+                  <span>{title}</span>
                 </button>
                 <button
                   onClick={handleSignOut}
@@ -123,11 +128,11 @@ export default function Example(props) {
                   href={item.href}
                   className={classNames(
                     item.current
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block rounded-md px-3 py-2 text-base font-medium"
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'block rounded-md px-3 py-2 text-base font-medium'
                   )}
-                  aria-current={item.current ? "page" : undefined}
+                  aria-current={item.current ? 'page' : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>

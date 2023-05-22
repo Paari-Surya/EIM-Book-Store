@@ -17,6 +17,21 @@ const UserAddBook = () => {
     }
   }, []);
 
+  const handleClick = (e, singleBook) => {
+    fetch("/api/useraddbook", {
+      method: "POST",
+      body: JSON.stringify({
+        bookId: singleBook.id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.result.status === "success") {
+          router.push("/user");
+        }
+      });
+  };
+
   console.log(singleBook);
   return (
     <>
@@ -61,6 +76,14 @@ const UserAddBook = () => {
                 {singleBook ? singleBook.publisher.toLowerCase() : ""}
               </p>
             </div>
+          </div>
+          <div className="mt-4 block">
+            <button
+              onClick={(e) => handleClick(e, singleBook)}
+              className="block mx-auto rounded px-6 py-3 bg-slate-800 text-white font-medium"
+            >
+              Add Book
+            </button>
           </div>
         </div>
       </div>
