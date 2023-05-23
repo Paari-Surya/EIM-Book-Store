@@ -25,6 +25,8 @@ const UserAddBook = () => {
         const books = responseData.result.data.books;
         setUserBooks(books);
         setDataLoaded(true);
+        console.log(books);
+        console.log(singleBook);
       }
     })();
   }, []);
@@ -38,6 +40,8 @@ const UserAddBook = () => {
         }
       }
       setShow(hasBook);
+      // console.log(userBooks);
+      // console.log(singleBook);
     }
   }, [userBooks, dataLoaded, show]);
 
@@ -46,6 +50,8 @@ const UserAddBook = () => {
   };
 
   const handleClick = (e, singleBook) => {
+    console.log(singleBook);
+    console.log(singleBook.id);
     fetch('/api/useraddbook', {
       method: 'POST',
       body: JSON.stringify({

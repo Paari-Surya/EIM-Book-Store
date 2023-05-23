@@ -29,33 +29,15 @@ exports.getUserBooks = handleAsync(async (req, res, next) => {
     },
   });
 });
-// exports.getClientBooks = handleAsync(async (req, res, next) => {
-//   const { id } = req.params;
-//   const user = await User.findById(id).populate('myBooks');
-//   const { books } = user;
-//   res.status(200).json({
-//     status: 'success',
-//     data: {
-//       books,
-//     },
-//   });
-// });
-exports.userAddBook = handleAsync(async (req, res, next) => {
-  const { userId } = req.params;
-  const { bookId } = req.body;
 
+exports.userAddBook = handleAsync(async (req, res, next) => {
+  const { userId, bookId } = req.body;
+  // const { bookId } = req.params;
   const { user } = req;
   const book = await Book.findById(bookId);
 
   if (!book) {
-    return next(new AppError('User or book not found', 400));
-  }
-  if (user.role === 'client' || user.role === 'admin') {
-    return next(
-      new AppError(
-        'The client cannot add books to his list. Post api/books instead.'
-      )
-    );
+    return next(new AppError('User or book not found', 404));
   }
   if (!user.books) user.books = [];
   if (user.books.includes(bookId))
@@ -77,6 +59,35 @@ exports.userAddBook = handleAsync(async (req, res, next) => {
     status: 'success',
     data: {
       userId,
+      bookId,
+    },
+  });
+});
+
+exports.userRemoveBook = handleAsync(async (req, res, next) => {
+  const { bookId } = req.params;
+  const user = await User.findById(req.user.id);
+  if (!user || !user.books)
+    return next(new AppError('User or books not found!', 404));
+  if (!user.books.includes(bookId))
+    return next(
+      new AppError('This book is not available with this user!', 404)
+    );
+  const updatedArr = user.books.filter(
+    (el) => el.toString() !== bookId.toString()
+  );
+  await User.findByIdAndUpdate(
+    user._id,
+    { books: updatedArr },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user: user.id,
       bookId,
     },
   });

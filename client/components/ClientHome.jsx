@@ -9,7 +9,7 @@ const ClientHome = (props) => {
   const [singleBook, setSingleBook] = useState();
   const [allBooks, setAllBooks] = useState();
 
-  const {clientAdd, setClientAdd} = props
+  const { clientAdd, setClientAdd } = props;
 
   const handleClick = (book) => {
     setSingleBook(book);
@@ -38,6 +38,10 @@ const ClientHome = (props) => {
     <>
       <div>
         <div className="mt-4 container px-20 mx-auto">
+          <img
+            src="http://localhost:8000/static/public/uploads/img/coverImg1684837306575.jpg"
+            alt="coverImg"
+          />
           {books && books.length > 0 && (
             <h2 className="text-xl font-bold text-gray-700">MY BOOKS</h2>
           )}

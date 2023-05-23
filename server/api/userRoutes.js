@@ -32,4 +32,11 @@ router.post(
   userController.userAddBook
 );
 
+router.post(
+  '/:bookId/removeBook',
+  authController.protect,
+  authController.restrictTo('user'),
+  userController.userRemoveBook
+);
+
 module.exports = router;
