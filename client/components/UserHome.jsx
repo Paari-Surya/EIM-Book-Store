@@ -23,6 +23,7 @@ const UserHome = (props) => {
       .then((res) => res.json())
       .then((res) => {
         setBooks(res.result.data.data);
+        console.log('UserHome', res.result.data.data);
       });
   }, []);
 
@@ -36,7 +37,7 @@ const UserHome = (props) => {
         <h2 className="text-xl font-bold text-gray-700">
           TOP 10 BOOKS OF THE WEEK
         </h2>
-        <div className="grid grid-cols-4 gap-5 mt-2">
+        <div className="grid grid-cols-3 gap-5 mt-2">
           {books &&
             books.map((book, i) => (
               <Book
@@ -49,7 +50,7 @@ const UserHome = (props) => {
             ))}
         </div>
       </div>
-      <AddBook setAdd={setAdd} add={add} />
+      {/* <AddBook setAdd={setAdd} add={add} /> */}
     </div>
   );
 };

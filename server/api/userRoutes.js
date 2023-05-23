@@ -23,7 +23,7 @@ router
   .delete(authController.protect, userController.deleteUser);
 
 router.get('/:id/myBooks', authController.protect, userController.getUserBooks);
-router.get('/:id/books', authController.protect, userController.getClientBooks);
+// router.get('/:id/books', authController.protect, userController.getClientBooks);
 
 router.post(
   '/:userId/addBook',

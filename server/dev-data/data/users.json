@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Scholastic Corporation",
+    "userName": "ShoCorp@eim.com",
+    "role": "client",
+    "password": "password@1234",
+    "passwordConfirm": "password@1234"
+  },
+  {
+    "name": "Lulu",
+    "userName": "LuluMedia@eim.com",
+    "role": "Client",
+    "password": "password@1234",
+    "passwordConfirm": "password@1234"
+  },
+  {
+    "name": "SmashWords",
+    "userName": "SmashWords@eim.com",
+    "role": "client",
+    "password": "password@1234",
+    "passwordConfirm": "password@1234"
+  },
+  {
+    "name": "Quirk Books",
+    "userName": "QuirkBookCorp@eim.com",
+    "role": "client",
+    "password": "password@1234",
+    "passwordConfirm": "password@1234"
+  },
+  {
+    "name": "Penguin House",
+    "userName": "PenguinHouse@eim.com",
+    "role": "client",
+    "password": "password@1234",
+    "passwordConfirm": "password@1234"
+  }
+]

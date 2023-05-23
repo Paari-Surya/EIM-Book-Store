@@ -9,4 +9,8 @@ node_modules/
 #misc
 /server/package-lock.json
 
-/server/public/
+/server/public/uploads/img
+/server/public/uploads/pdf
+
+/server/dev-data/img
+/server/dev-data/pdf

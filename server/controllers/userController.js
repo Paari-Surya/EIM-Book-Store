@@ -18,6 +18,7 @@ exports.createUser = (req, res, next) => {
 };
 
 exports.getUserBooks = handleAsync(async (req, res, next) => {
+  //Used for users as well as clients. The page of display in frontend changes.
   const { id } = req.params;
   const user = await User.findById(id).populate('books');
   const { books } = user;
@@ -28,17 +29,17 @@ exports.getUserBooks = handleAsync(async (req, res, next) => {
     },
   });
 });
-exports.getClientBooks = handleAsync(async (req, res, next) => {
-  const { id } = req.params;
-  const user = await User.findById(id).populate('myBooks');
-  const { books } = user;
-  res.status(200).json({
-    status: 'success',
-    data: {
-      books,
-    },
-  });
-});
+// exports.getClientBooks = handleAsync(async (req, res, next) => {
+//   const { id } = req.params;
+//   const user = await User.findById(id).populate('myBooks');
+//   const { books } = user;
+//   res.status(200).json({
+//     status: 'success',
+//     data: {
+//       books,
+//     },
+//   });
+// });
 exports.userAddBook = handleAsync(async (req, res, next) => {
   const { userId } = req.params;
   const { bookId } = req.body;
@@ -57,6 +58,8 @@ exports.userAddBook = handleAsync(async (req, res, next) => {
     );
   }
   if (!user.books) user.books = [];
+  if (user.books.includes(bookId))
+    return next(new AppError('User have this book already!', 400));
   user.books.push(bookId);
   await User.findByIdAndUpdate(
     user._id,

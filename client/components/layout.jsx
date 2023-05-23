@@ -11,7 +11,8 @@ import MyBooks from './MyBooksComponent';
 const Layout = (props) => {
   const router = useRouter();
   const [add, setAdd] = useState(false);
-  const [clientAdd, setClientAdd] = useState(false);
+
+  const {clientAdd, setClientAdd} = props
 
   const title = props.title ? props.title : '';
   const handleButton = props.handleButton;
@@ -27,7 +28,7 @@ const Layout = (props) => {
         {router.pathname === '/user' ? (
           <UserHome setAdd={setAdd} add={add} />
         ) : router.pathname === '/client' ? (
-          <ClientHome clientAdd={add} setClientAdd={setAdd} />
+          <ClientHome clientAdd={clientAdd} setClientAdd={setClientAdd} />
         ) : router.pathname === '/admin' ? (
           <AdminHome />
         ) : router.pathname === '/mybooks' ? (

@@ -4,14 +4,12 @@ import AddBook from './AddBook';
 import Book from './Book';
 
 const ClientHome = (props) => {
-  const [clientDetails, setClientDetails] = useState();
   const [books, setBooks] = useState();
   const [open, setOpen] = useState(false);
   const [singleBook, setSingleBook] = useState();
   const [allBooks, setAllBooks] = useState();
 
-  const add = props.clientAdd;
-  const setAdd = props.setClientAdd;
+  const {clientAdd, setClientAdd} = props
 
   const handleClick = (book) => {
     setSingleBook(book);
@@ -24,7 +22,6 @@ const ClientHome = (props) => {
       .then((res) => res.json())
       .then((res) => {
         if (res.result.status === 'success') {
-          setClientDetails(res.result);
           setBooks(res.result.data.myBooks);
         }
       });
@@ -58,7 +55,7 @@ const ClientHome = (props) => {
               ))}
           </div>
           <h2 className="text-xl font-bold text-gray-700">All Books</h2>
-          <div className="grid grid-cols-4 gap-5 mt-2">
+          <div className="grid grid-cols-3 gap-5 mt-2">
             {allBooks &&
               allBooks.map((book, i) => (
                 <Book
@@ -72,7 +69,7 @@ const ClientHome = (props) => {
           </div>
         </div>
         <BookDetail singleBook={singleBook} setOpen={setOpen} open={open} />
-        <AddBook setAdd={setAdd} add={add} />
+        <AddBook setClientAdd={setClientAdd} clientAdd={clientAdd} />
       </div>
     </>
   );

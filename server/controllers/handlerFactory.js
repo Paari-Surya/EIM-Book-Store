@@ -2,6 +2,7 @@ const fs = require('fs');
 const handleAsync = require('../utils/handleAsync');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
+const Book = require('../models/bookModel');
 
 exports.deleteOne = (Model) =>
   handleAsync(async (req, res, next) => {
@@ -65,7 +66,10 @@ exports.getAll = (Model) =>
       .sort()
       .limitFields()
       .paginate();
-    const doc = await queryOptions.query;
+    let doc;
+    if (Model === Book) {
+      doc = await queryOptions.query.populate('owner');
+    } else doc = await queryOptions.query;
 
     res.status(200).json({
       status: 'success',

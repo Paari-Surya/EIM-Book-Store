@@ -35,8 +35,7 @@ function checkFileType(file, cb) {
     if (
       file.mimetype === 'image/png' ||
       file.mimetype === 'image/jpg' ||
-      file.mimetype === 'image/jpeg' ||
-      file.mimetype === 'image/gif'
+      file.mimetype === 'image/jpeg'
     ) {
       // check file type to be png, jpeg, or jpg
       cb(null, true);
@@ -75,15 +74,16 @@ const uploadMiddleware = handleAsync(async (req, res, next) => {
       console.log(err);
       return next(new AppError(err, 500));
     }
-    console.log('REQ>BODY', req.body);
     // req.body = JSON.parse(req.body.data);
-    console.log('REQ>BODY : ', req.body);
+    // console.log(req);
+    // console.log(req.body);
     const imgPath = req.files.coverImg[0].path;
     const pdfPath = req.files.book[0].path;
     req.body.imgPath = imgPath;
     req.body.pdfPath = pdfPath;
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
     req.body.files = { ...req.files };
+    console.log('No prblm in upload Middleware');
     next();
   });
 });

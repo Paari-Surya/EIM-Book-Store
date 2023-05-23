@@ -68,10 +68,9 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// Hash password
 userSchema.pre('save', async function (next) {
-  // Hash password
   this.password = await bcrypt.hash(this.password, 12);
-
   this.passwordConfirm = undefined;
   next();
 });
@@ -82,7 +81,7 @@ userSchema.virtual('myBooks', {
   localField: '_id',
 });
 
-//Methods
+//Check password
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword

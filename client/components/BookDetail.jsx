@@ -1,6 +1,6 @@
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/24/outline";
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { CheckIcon } from '@heroicons/react/24/outline';
 
 export default function Example(props) {
   const setOpen = props.setOpen;
@@ -48,7 +48,7 @@ export default function Example(props) {
                     </div>
                     <div>
                       <p className="text-base text-center capitalize font-bold text-gray-600">
-                        {singleBook ? singleBook.name.toLowerCase() : ""}
+                        {singleBook ? singleBook.name.toLowerCase() : ''}
                       </p>
                     </div>
                   </div>
@@ -60,7 +60,7 @@ export default function Example(props) {
                     </div>
                     <div>
                       <p className="text-base text-center capitalize font-bold text-gray-600">
-                        {singleBook ? singleBook.author.toLowerCase() : ""}
+                        {singleBook ? singleBook.author.toLowerCase() : ''}
                       </p>
                     </div>
                   </div>
@@ -72,7 +72,7 @@ export default function Example(props) {
                     </div>
                     <div>
                       <p className="text-base text-center capitalize font-bold text-gray-600">
-                        {singleBook ? singleBook.publisher.toLowerCase() : ""}
+                        {singleBook ? singleBook.publisher.toLowerCase() : ''}
                       </p>
                     </div>
                   </div>

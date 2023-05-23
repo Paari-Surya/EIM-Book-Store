@@ -1,14 +1,18 @@
 import Layout from '@/components/layout';
 import React from 'react';
+import { useState } from 'react';
 
 const Client = () => {
+
+  const [clientAdd, setClientAdd] = useState(false)
+
   const title = 'Add Book';
   const handleButton = () => {
-    () => setAdd(!add);
+     setClientAdd(!clientAdd);
   };
   return (
     <div>
-      <Layout handleButton={handleButton} title={title} />
+      <Layout clientAdd={clientAdd} setClientAdd={setClientAdd} handleButton={handleButton} title={title} />
     </div>
   );
 };

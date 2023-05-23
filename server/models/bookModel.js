@@ -32,6 +32,12 @@ const bookSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    description: {
+      type: String,
+      trim: true,
+      max: 100,
+      min: 10,
+    },
     buyers: [
       {
         type: mongoose.Schema.ObjectId,
@@ -64,12 +70,12 @@ bookSchema.pre('save', function (next) {
   next();
 });
 
-bookSchema.pre(/^find/, function (next) {
-  this.find({ secretBook: { $ne: true } });
-  this.start = Date.now();
+// bookSchema.pre(/^find/, function (next) {
+//   this.find({ secretBook: { $ne: true } });
+//   this.start = Date.now();
 
-  next();
-});
+//   next();
+// });
 
 // Total_Buyers
 bookSchema.virtual('totalBuyers').get(function () {
