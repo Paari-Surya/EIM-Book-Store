@@ -18,14 +18,9 @@ exports.updateBook = factory.updateOne(Book);
 exports.deleteBook = factory.deleteOne(Book);
 
 exports.createBook = handleAsync(async (req, res, next) => {
-  // const imgPath = req.body.files.coverImg[0].path;
-  // const pdfPath = req.body.files.book[0].path;
-  // req.body.imgPath = imgPath;
-  // req.body.pdfPath = pdfPath;
-  // console.log(req.body);
-  // console.log(req.body);
   const { imgPath } = req.body;
   const { pdfPath } = req.body;
+  console.log(req.body.data);
   const jsonData = JSON.parse(req.body.data);
   const bookData = { ...jsonData, imgPath, pdfPath };
   const doc = await Book.create(bookData);

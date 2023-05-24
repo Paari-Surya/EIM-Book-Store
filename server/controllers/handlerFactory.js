@@ -50,7 +50,7 @@ exports.getOne = (Model, popOptions) =>
       : await Model.findById(req.params.id);
 
     if (!doc) return next(new AppError('No document found with that ID!', 404));
-
+    console.log(doc);
     res.status(200).json({
       status: 'success',
       data: {
@@ -59,9 +59,20 @@ exports.getOne = (Model, popOptions) =>
     });
   });
 
+const checkOwnerNull = handleAsync(async (Model, dataArr) => {
+  const filteredArr = dataArr
+    .filter((el) => el.owner === null)
+    .map((el) => el._id.toString());
+  console.log(filteredArr);
+  if (filteredArr.length !== 0) {
+    await Model.deleteMany({ _id: { $in: filteredArr } });
+    return true;
+  }
+  return false;
+});
+
 exports.getAll = (Model) =>
   handleAsync(async (req, res, next) => {
-    // let filter = {};
     const queryOptions = new APIFeatures(Model.find(), req.query)
       .sort()
       .limitFields()
@@ -69,6 +80,10 @@ exports.getAll = (Model) =>
     let doc;
     if (Model === Book) {
       doc = await queryOptions.query.populate('owner');
+      // doc = checkOwnerNull(Book, doc);
+      const reloadData = checkOwnerNull(Book, doc);
+      console.log(reloadData);
+      if (reloadData) doc = await queryOptions.query.populate('owner');
     } else doc = await queryOptions.query;
 
     res.status(200).json({

@@ -35,8 +35,27 @@ const bookSchema = new mongoose.Schema(
     description: {
       type: String,
       trim: true,
-      max: 100,
       min: 10,
+    },
+    pages: Number,
+    year: {
+      type: Number,
+      min: 1000,
+      max: 2025,
+    },
+    edition: {
+      type: String,
+      trim: true,
+      default: 'First Edition',
+    },
+    categories: {
+      type: String,
+      trim: true,
+    },
+    language: String,
+    file_extention: {
+      type: String,
+      default: '.pdf',
     },
     buyers: [
       {

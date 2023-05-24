@@ -14,6 +14,10 @@ const Layout = (props) => {
 
   const {clientAdd, setClientAdd} = props
 
+  const { sessionId, userUuid, role } = props
+
+  
+
   const title = props.title ? props.title : '';
   const handleButton = props.handleButton;
   return (
@@ -28,7 +32,7 @@ const Layout = (props) => {
         {router.pathname === '/user' ? (
           <UserHome setAdd={setAdd} add={add} />
         ) : router.pathname === '/client' ? (
-          <ClientHome clientAdd={clientAdd} setClientAdd={setClientAdd} />
+          <ClientHome sessionId={sessionId} userUuid={userUuid} role={role} clientAdd={clientAdd} setClientAdd={setClientAdd} />
         ) : router.pathname === '/admin' ? (
           <AdminHome />
         ) : router.pathname === '/mybooks' ? (

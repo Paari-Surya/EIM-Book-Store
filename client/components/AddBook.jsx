@@ -6,11 +6,19 @@ import axios from 'axios';
 export default function Example(props) {
   const { clientAdd, setClientAdd } = props;
 
+  const { userUuid, sessionId, role } = props;
+
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
   const [publisher, setPublisher] = useState('');
   const [coverimage, setCoverImage] = useState('');
   const [bookpdf, setBookPdf] = useState('');
+  const [year, setYear] = useState('');
+  const [description, setDescription] = useState('');
+  const [categories, setCategories] = useState('');
+  const [edition, setEdition] = useState('');
+  const [language, setLanguage] = useState('');
+  const [pages, setPages] = useState('');
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -27,6 +35,25 @@ export default function Example(props) {
   const handleBookPdfChange = (e) => {
     setBookPdf(e.target.files[0]);
   };
+  const handleYearChange = (e) => {
+    setYear(e.target.value);
+  };
+  const handleEditionChange = (e) => {
+    setEdition(e.target.value);
+  };
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+  const handleCategoriesChange = (e) => {
+    setCategories(e.target.value);
+  };
+  const handleLanguageChange = (e) => {
+    setLanguage(e.target.value);
+  };
+  const handlePagesChange = (e) => {
+    setPages(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -37,7 +64,11 @@ export default function Example(props) {
         name,
         author,
         publisher,
-        owner: '646b631953156234727a1a4b',
+        owner: userUuid,
+        year,
+        description,
+        categories,
+        edition,
       })}`
     );
     formData.append('coverImg', coverimage, coverimage.name);
@@ -47,12 +78,12 @@ export default function Example(props) {
       (async () => {
         try {
           const postData = await axios.post(
-            'http://192.168.1.9:8000/api/v1/books/',
+            'http://localhost:8000/api/v1/books/',
             formData,
             {
               'Content-Type': `multipart/form-data;boundary=${formData._boundary}`,
               headers: {
-                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmI2MzE5NTMxNTYyMzQ3MjdhMWE0YiIsImlhdCI6MTY4NDgzMzEzMiwiZXhwIjoxNjkyNjA5MTMyfQ.2OX6W2_Js_W6OVvAKgyjouZJz1Xb8o_qJnNzI8MBmtQ`,
+                Authorization: `Bearer ${sessionId}`,
               },
               body: formData,
             }
@@ -62,7 +93,7 @@ export default function Example(props) {
             console.log('Book Created');
           }
         } catch (err) {
-          console.log(err.response?.data);
+          if (err) console.log(err.response?.data);
         }
       })();
     }
@@ -133,6 +164,72 @@ export default function Example(props) {
                         className="block px-4 py-1.5 border border-gray-300 rounded"
                       />
                     </div>
+                    <div className="mt-4">
+                      <label htmlFor="year" className="block">
+                        Year
+                      </label>
+                      <input
+                        type="number"
+                        id="year"
+                        onChange={handleYearChange}
+                        className="block px-4 py-1.5 border border-gray-300 rounded"
+                      />
+                    </div>
+                    <div className="mt-4">
+                      <label htmlFor="categories" className="block">
+                        Categories
+                      </label>
+                      <input
+                        type="text"
+                        id="categories"
+                        onChange={handleCategoriesChange}
+                        className="block px-4 py-1.5 border border-gray-300 rounded"
+                      />
+                    </div>
+                    <div className="mt-4">
+                      <label htmlFor="edition" className="block">
+                        Edition
+                      </label>
+                      <input
+                        type="text"
+                        id="edition"
+                        onChange={handleEditionChange}
+                        className="block px-4 py-1.5 border border-gray-300 rounded"
+                      />
+                    </div>
+                    <div className="mt-4 col-span-2">
+                      <label htmlFor="description" className="block">
+                        Description
+                      </label>
+                      <textarea
+                        type="text"
+                        onChange={handleDescriptionChange}
+                        id="description"
+                        className="block px-4 w-full py-1.5 h-24 border border-gray-300 rounded"
+                      ></textarea>
+                    </div>
+                    <div className="mt-4">
+                      <label htmlFor="language" className="block">
+                        Language
+                      </label>
+                      <input
+                        type="text"
+                        onChange={handleLanguageChange}
+                        id="language"
+                        className="block px-4 py-1.5 border border-gray-300 rounded"
+                      />
+                    </div>
+                    <div className="mt-4">
+                      <label htmlFor="pages" className="block">
+                        Total Pages
+                      </label>
+                      <input
+                        type="number"
+                        onChange={handlePagesChange}
+                        id="pages"
+                        className="block px-4 py-1.5 border border-gray-300 rounded"
+                      />
+                    </div>
                   </div>
                   <div className="mt-2">
                     <p>Cover Image</p>
@@ -142,10 +239,10 @@ export default function Example(props) {
                           className="mx-auto h-12 w-12 text-gray-300"
                           aria-hidden="true"
                         />
-                        <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                        <div className="mt-4 flex justify-center text-sm leading-6 text-gray-600">
                           <label
                             htmlFor="coverImg"
-                            className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                            className="relative text-center cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                           >
                             <span>Upload a file</span>
                             <input
@@ -155,8 +252,7 @@ export default function Example(props) {
                               className="sr-only"
                               onChange={handleCoverImageChange}
                             />
-                          </label>
-                          <p className="pl-1">or drag and drop</p>
+                          </label>{' '}
                         </div>
                         <p className="text-xs leading-5 text-gray-600">
                           PNG, JPG, GIF up to 10MB
@@ -168,14 +264,25 @@ export default function Example(props) {
                     <p>Book</p>
                     <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                       <div className="text-center">
-                        <PhotoIcon
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
                           className="mx-auto h-12 w-12 text-gray-300"
-                          aria-hidden="true"
-                        />
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                          />
+                        </svg>
+
                         <div className="mt-4 flex text-sm leading-6 text-gray-600">
                           <label
                             htmlFor="bookPdf"
-                            className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                            className="relative text-center cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                           >
                             <span>Upload a file</span>
                             <input
@@ -187,10 +294,9 @@ export default function Example(props) {
                               onChange={handleBookPdfChange}
                             />
                           </label>
-                          <p className="pl-1">or drag and drop</p>
                         </div>
                         <p className="text-xs leading-5 text-gray-600">
-                          PNG, JPG, GIF up to 10MB
+                          PDF upto 10MB
                         </p>
                       </div>
                     </div>

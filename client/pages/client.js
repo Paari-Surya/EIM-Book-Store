@@ -2,9 +2,11 @@ import Layout from '@/components/layout';
 import React from 'react';
 import { useState } from 'react';
 
-const Client = () => {
+const Client = ({ sessionId, userUuid, role }) => {
 
   const [clientAdd, setClientAdd] = useState(false)
+
+  
 
   const title = 'Add Book';
   const handleButton = () => {
@@ -12,15 +14,16 @@ const Client = () => {
   };
   return (
     <div>
-      <Layout clientAdd={clientAdd} setClientAdd={setClientAdd} handleButton={handleButton} title={title} />
+      <Layout sessionId={sessionId} userUuid={userUuid} role={role} clientAdd={clientAdd} setClientAdd={setClientAdd} handleButton={handleButton} title={title} />
     </div>
   );
 };
 
 export async function getServerSideProps({ req, res }) {
   const cookies = req.cookies;
-  const sessionId = cookies.sessionId;
-  const role = cookies.role;
+  let sessionId = cookies.sessionId;
+  let role = cookies.role;
+  let userUuid = cookies.userUuid
 
   if (!sessionId) {
     return {
@@ -41,7 +44,9 @@ export async function getServerSideProps({ req, res }) {
   }
 
   return {
-    props: {},
+    props: {
+      sessionId, userUuid, role
+    },
   };
 }
 

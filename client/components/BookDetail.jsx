@@ -35,47 +35,61 @@ export default function Example(props) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-                <div className="space-y-4">
-                  <div className="mb-4 text-center font-xl text-black font-bold">
-                    BOOK DETAILS
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl sm:p-6">
+                <div className='py-2 flex items-center justify-between border-b border-gray-300'>
+                  <h2 className='font-semibold'>{singleBook.title}</h2>
+                  <button onClick={() => setOpen(!open)} className='bg-orange-700 text-white px-6 py-2 rounded-full'>Close</button>
+                </div>
+                <div className='grid grid-cols-10 mt-3'>
+                  <div className='col-span-3'>
+                    <img src={singleBook.cover} className='w-40 h-48 block mx-auto object-contain' alt="" />
                   </div>
-                  <div className="grid grid-cols-2">
+                  <div className='grid grid-cols-8 gap-4 col-span-7'>
+                  <div className='col-span-4'>
                     <div>
-                      <p className="text-base text-center font-bold text-gray-900">
-                        Name
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-base text-center capitalize font-bold text-gray-600">
-                        {singleBook ? singleBook.name.toLowerCase() : ''}
-                      </p>
-                    </div>
+                      <h3 className='font-semibold'>Author</h3>
+                      <p className='line-clamp-3'>{singleBook.author}</p>
+                    </div>                    
                   </div>
-                  <div className="grid grid-cols-2">
+                  <div className='col-span-2'>
                     <div>
-                      <p className="text-base text-center font-bold text-gray-900">
-                        Author
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-base text-center capitalize font-bold text-gray-600">
-                        {singleBook ? singleBook.author.toLowerCase() : ''}
-                      </p>
-                    </div>
+                      <h3 className='font-semibold'>Year</h3>
+                      <p>{singleBook.year}</p>
+                    </div>                                      
                   </div>
-                  <div className="grid grid-cols-2">
+                  <div className='col-span-2'>
                     <div>
-                      <p className="text-base text-center font-bold text-gray-900">
-                        Publisher
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-base text-center capitalize font-bold text-gray-600">
-                        {singleBook ? singleBook.publisher.toLowerCase() : ''}
-                      </p>
-                    </div>
+                      <h3 className='font-semibold'>Edition</h3>
+                      <p>{singleBook.edition}</p>
+                    </div>                    
                   </div>
+                  <div className='col-span-4'>
+                    <div>
+                      <h3 className='font-semibold'>Categories</h3>
+                      <p className='w-60 line-clamp-3'>{singleBook.categories}</p>
+                    </div>                    
+                  </div>
+                  <div className='col-span-2'>
+                    <div>
+                      <h3 className='font-semibold'>Language</h3>
+                      <p>{singleBook.language}</p>
+                    </div>                                      
+                  </div>
+                  <div className='col-span-2'>
+                    <div>
+                      <h3 className='font-semibold'>Pages</h3>
+                      <p>{singleBook.pages}</p>
+                    </div>                    
+                  </div>
+                  <div className='col-span-4'>
+                    <h3 className='font-semibold'>Description</h3>
+                    <p className='line-clamp-3'>{singleBook.description}</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <h3 className='font-semibold'>Book Format</h3>
+                    <p>{singleBook.file_extension}</p>
+                  </div>
+                </div>
                 </div>
                 <div className="mt-5 sm:mt-6">
                   <button

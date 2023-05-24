@@ -31,9 +31,10 @@ exports.getUserBooks = handleAsync(async (req, res, next) => {
 });
 
 exports.userAddBook = handleAsync(async (req, res, next) => {
-  const { userId, bookId } = req.body;
+  const { bookId } = req.body;
   // const { bookId } = req.params;
   const { user } = req;
+  const userId = user._id;
   const book = await Book.findById(bookId);
 
   if (!book) {
